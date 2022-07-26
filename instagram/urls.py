@@ -23,6 +23,9 @@ from cards import views
 
 urlpatterns = [
     path('', views.home_page, name='home'),
+    path('new', views.upload_card, name='upload_card'),
+    path('profile/<int:user_id>', views.get_user_profile, name='get_user_profile'),
+    path('post/<int:post_id>', views.get_post_detail, name='get_post_detail'),
 
     path('admin/', admin.site.urls),
     path('authorization/', include('authorizations.urls')),

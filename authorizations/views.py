@@ -1,8 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
+
+from authorizations.models import User
 
 from authorizations.forms import UserForm, RegisterForm
 
@@ -15,7 +16,7 @@ def authorization(request):
 		'user': request.user
 	}
 	if request.method == 'GET':
-		return render(request, 'login.html', context)
+		return render(request, 'instagram_login.html', context)
 	if request.method == 'POST':
 		form = UserForm(request.POST)
 		user = authenticate(
@@ -24,10 +25,10 @@ def authorization(request):
 		)
 		if user is None:
 			context['error'] = 'Invalid username or password'
-			return render(request, 'login.html', context)
+			return render(request, 'instagram_login.html', context)
 		else:
 			login(request, user)
-			return redirect('all_tasks')
+			return redirect('home')  # @TODO Изменить название роута для редиректа
 
 
 def registration(request):
@@ -36,26 +37,28 @@ def registration(request):
 		'error': None
 	}
 	if request.method == 'GET':
-		return render(request, 'register.html', context)  # Вывести форму на страницу
+		return render(request, 'instagram_register.html', context)  # Вывести форму на страницу
 	elif request.method == 'POST':
 		form = RegisterForm(request.POST)
 		has_user = User.objects.filter(username=form.data['username']).exists()
 		if has_user:
 			context['error'] = 'User with this username already exists'
-			return render(request, 'register.html', context)
+			return render(request, 'instagram_register.html', context)
 		if len(form.data['password']) < 6:
 			context['error'] = 'Password must be at least 6 characters long'
-			return render(request, 'register.html', context)
+			return render(request, 'instagram_register.html', context)
 		if form.data['password'] != form.data['password2']:
 			context['error'] = 'Passwords do not match'
-			return render(request, 'register.html', context)
+			return render(request, 'instagram_register.html', context)
 		password = make_password(form.data['password'])
 		user = User.objects.create(
 			username=form.data['username'],
-			email=form.data['email'],
-			password=password
+			password=password,
+			first_name=form.data['first_name'],
+			last_name=form.data['last_name'],
+			avatar=form.data['avatar']
 		)
-		return redirect('all_tasks')
+		return redirect('home')  # @TODO Изменить название роута для редиректа
 
 
 def logout_user(request):

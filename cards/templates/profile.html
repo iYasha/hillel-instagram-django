@@ -9,15 +9,20 @@
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}" />
     <script src="{% static 'assets/js/script.js' %}" defer></script>
       <style>
-          form button{
-          width: inherit;
-          margin-left: 5px;
-          padding: 7px 20px;
-          border-radius: 5px;
-          border: none;
-          background-color: #0095f6;
-          color: #ffffff;
-        }
+          .user-profile {
+                  border: 1px solid grey;
+    padding: 20px;
+    border-radius: 15px;
+          }
+          .user-profile .side-menu__user-avatar {
+                  width: 120px;
+            height: 120px;
+          }
+          .user-profile .side-menu__user-info a,
+          .user-profile .side-menu__user-info span
+          {
+              font-size: 20px;
+          }
       </style>
   </head>
 
@@ -69,10 +74,9 @@
             </svg>
           </button>
         </div>
-<form action="{% url 'home' %}" method="get" style="display: flex;  justify-content: center; align-items: center;">
-        <div class="header__search">
 
-                <input type="text" name="query" placeholder="Search" />
+        <div class="header__search">
+          <input type="text" placeholder="Search" />
           <svg
             width="24"
             height="24"
@@ -90,10 +94,7 @@
               stroke-linejoin="round"
             />
           </svg>
-
         </div>
-{#            <button type="submit">Search</button>#}
-            </form>
 
         <div class="header__buttons header__buttons--mobile">
           <a href="#">
@@ -374,21 +375,35 @@
     <main class="main-container">
       <section class="content-container">
         <div class="content">
-
+<div class="side-menu__user-profile user-profile">
+            <a
+              href="https://github.com/leocosta1"
+              target="_blank"
+              class="side-menu__user-avatar"
+            >
+              <img src="{{ user.avatar.url }}" alt="User Picture" />
+            </a>
+            <div class="side-menu__user-info">
+              <a href="https://github.com/leocosta1" target="_blank"
+                >{{ user.username }}</a
+              >
+              <span>{{ user.first_name }} {{ user.last_name }}</span>
+            </div>
+          </div>
           <div class="posts">
               {% for card in cards %}
             <article class="post"> <!-- START POST -->
               <div class="post__header">
                 <div class="post__profile">
                   <a
-                    href="{% url 'get_user_profile' card.user.id %}"
+                    href="https://github.com/leocosta1"
                     target="_blank"
                     class="post__avatar"
                   >
                     <img src="{{ card.user.avatar.url }}" alt="User Picture" />
                   </a>
                   <a
-                    href="{% url 'get_user_profile' card.user.id %}"
+                    href="https://github.com/leocosta1"
                     target="_blank"
                     class="post__user"
                     >{{ card.user.username }}</a
@@ -421,16 +436,13 @@
               </div>
 
               <div class="post__content">
-                  <a href="{% url 'get_post_detail' card.id %}">
-                      <div class="post__medias">
-                          <img
-                            class="post__media"
-                            src="{{ card.image.url }}"
-                            alt="Post Content"
-                          />
-                        </div>
-                  </a>
-
+                <div class="post__medias">
+                  <img
+                    class="post__media"
+                    src="{{ card.image.url }}"
+                    alt="Post Content"
+                  />
+                </div>
               </div>
 
               <div class="post__footer">
@@ -525,7 +537,7 @@
                     <span>
                       <a
                         class="post__name--underline"
-                        href="{% url 'get_user_profile' card.user.id %}"
+                        href="https://github.com/leocosta1"
                         target="_blank"
                         >{{ card.user.username }}</a
                       >

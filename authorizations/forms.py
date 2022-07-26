@@ -1,18 +1,25 @@
 from django import forms
-from django.contrib.auth.models import User
+from authorizations.models import User
 
 
 class UserForm(forms.ModelForm):
+	username = forms.CharField(label='', max_length=30, widget=forms.TextInput(attrs={'placeholder': 'Username'}))
+	password = forms.CharField(label='', widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+
 	class Meta:
 		model = User
 		fields = ['username', 'password']
 
 
 class RegisterForm(forms.ModelForm):
-	password = forms.CharField(label='Password', widget=forms.PasswordInput)
-	password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput)
+	username = forms.CharField(label='', max_length=30, widget=forms.TextInput(attrs={'placeholder': 'Username'}))
+	first_name = forms.CharField(label='', max_length=30, widget=forms.TextInput(attrs={'placeholder': 'First name'}))
+	last_name = forms.CharField(label='', max_length=30, widget=forms.TextInput(attrs={'placeholder': 'Last name'}))
+	avatar = forms.ImageField(label='', required=False)
+	password = forms.CharField(label='', widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+	password2 = forms.CharField(label='', widget=forms.PasswordInput(attrs={'placeholder': 'Repeat password'}))
 
 	class Meta:
 		model = User
-		fields = ['username', 'email']
+		fields = ['username', 'first_name', 'last_name', 'avatar']
 

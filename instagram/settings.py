@@ -120,6 +120,8 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODEL = 'authorizations.User'
+
 PROJECT_DIR = os.path.dirname(__file__)
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
